@@ -11,6 +11,7 @@ import Header from './Components/Header/Header';
 import SignupForm from './Components/Form/SignupForm';
 import LogInForm from './Components/Form/LoginForm';
 import Welcome from './Components/Welcome/Welcome';
+// import ResponsePage from './Components/ResponsePage';
 function App() {
   return (
     <div className="App">
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<LogInForm />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/update" element={<UpdateUserDetails />} />
+        {/* <Route path="/response" element={<ResponsePage />} /> */}
       </Routes>
     </BrowserRouter>
     </div>
