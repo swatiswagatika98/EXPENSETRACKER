@@ -1,56 +1,33 @@
 import React, { useState } from "react";
+import { auth } from '../../Firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const signUpHandler = (e) => {
+  
+  const signupHandler = async (e) => {
     e.preventDefault();
-
-    if(password !== confirmPassword){
-        alert("Password and Confirm Password must be same");
-        return;
+    if (password !== confirmPassword) {
+      alert("Passwords don't match");
+      return;
     }
-
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBTvIRiUbpt2SwWOPYZ9OlefTYaSnKQeMQ",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          confirmPassword: confirmPassword,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => {
-        if (res.ok) {
-          console.log("User has successfully signed up");
-          return;
-        } else {
-          return res.json().then((data) => {
-            alert(data.error.message);
-            throw new Error("Authentication Failed");
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert('Account created successfully');
+      
+      
+    } catch (err) {
+      alert(err.message);
+     
+    }
   };
 
   return (
     <form
-      onSubmit={signUpHandler}
+      onSubmit={signupHandler}
       className="d-flex flex-column w-25 mx-auto p-5"
     >
       <div className="mb-3">
